@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="160" height="70"
+     viewBox="0 0 160 70">
+  <title>Digital Clock</title>
+
+  <style>
+    :root{
+      --border-color: #000; /* Rahmenfarbe / cor da borda */
+      --text-color:   #000; /* Zahlenfarbe / cor do texto */
+    }
+    #frame{ stroke: var(--border-color); }
+    #clock{ fill: var(--text-color); }
+  </style>
+
+  <!-- Rahmen / Moldura -->
+  <rect id="frame" x="1" y="1" width="158" height="68" rx="12"
+        fill="none" stroke-width="2"/>
+
+  <!-- Uhrzeit / Hora -->
+  <text id="clock" x="80" y="44"
+        font-family="monospace"
+        font-size="30"
+        text-anchor="middle">--:--</text>
+
+  <script><![CDATA[
+    // ===== Konfiguration / Configuração =====
+    const timeZone = "Europe/Berlin"; // z.B. "Europe/Lisbon"
+    const locale = "de-DE";           // z.B. "pt-PT"
+    const showSeconds = false;        // true => HH:MM:SS
+
+    function formatTime(d){
+      try{
+        const fmt = new Intl.DateTimeFormat(locale, {
+          timeZone,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: showSeconds ? "2-digit" : undefined,
+          hour12: false
+        });
+        return fmt.format(d);
+      } catch(e){
+        // Fallback: lokale Zeit (ohne Zeitzonen-Umrechnung)
+        const hh = String(d.getHours()).padStart(2, "0");
+        const mm = String(d.getMinutes()).padStart(2, "0");
+        const ss = String(d.getSeconds()).padStart(2, "0");
+        return showSeconds ? `${hh}:${mm}:${ss}` : `${hh}:${mm}`;
+      }
+    }
+
+    function updateClock(){
+      const el = document.getElementById("clock");
+      if (!el) return;
+      el.textContent = formatTime(new Date());
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  ]]></script>
+</svg>
