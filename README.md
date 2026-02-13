@@ -1,20 +1,7 @@
-# Digital SVG Clock (KNX / Offline Ready)
+# Digital SVG Clock
 
-A self-contained SVG digital clock that displays the real time using embedded JavaScript.  
-Designed for KNX panels, web views, and offline environments.
-
----
-
-## Features
-
-- Pure SVG file
-- Embedded JavaScript (no external dependencies)
-- Works offline
-- Customizable colors via CSS variables
-- Configurable time zone
-- Optional seconds display
-- Automatic daylight saving time (DST) handling via `Intl`
-- Fallback mode if `Intl` is not supported
+A simple SVG digital clock that shows the real time using embedded JavaScript.  
+Works offline and is suitable for KNX panels and web views.
 
 ---
 
@@ -26,118 +13,71 @@ digital_clock.svg
 
 ## How It Works
 
-The clock:
-
-1. Uses `new Date()` to get the system time.
-2. Uses `Intl.DateTimeFormat` to apply a specific time zone.
-3. Updates every second using `setInterval()`.
-4. Falls back to local system time if `Intl` is unavailable.
-
-No internet connection is required.
+- Uses the device system time
+- Updates every second
+- No internet connection required
+- Handles daylight saving time automatically (if supported)
 
 ---
 
 ## Configuration
 
-Open the SVG file and modify the configuration section inside the `<script>` block:
+Open the SVG file and edit this section inside the `<script>`:
 
 ```javascript
-const timeZone = "Europe/Berlin"; // Change time zone
+const timeZone = "Europe/Berlin"; // Set your time zone
 const locale = "de-DE";           // Language format
 const showSeconds = false;        // true = HH:MM:SS
 ```
 
-### Example Time Zones
+Example time zones:
 
-| Location | Value |
-|----------|-------|
-| Germany | "Europe/Berlin" |
-| Portugal | "Europe/Lisbon" |
-| Brazil | "America/Sao_Paulo" |
-| USA (New York) | "America/New_York" |
-| Japan | "Asia/Tokyo" |
+- "Europe/Berlin"
+- "Europe/Lisbon"
+- "America/New_York"
+- "Asia/Tokyo"
 
 ---
 
-## Color Customization
+## Change Colors
 
-At the top of the SVG you will find:
+At the top of the SVG:
 
 ```css
 :root{
   --border-color: #000;
-  --text-color:   #000;
+  --text-color: #000;
 }
 ```
 
-Change these values to any CSS color:
-
-```css
---border-color: #555;
---text-color: #00cc66;
-```
+Modify these values to any color you like.
 
 ---
 
 ## Usage
 
-### Direct SVG Usage
-
 Upload `digital_clock.svg` to your server or KNX visualization and load it as:
 
 - Image
 - iFrame
-- Custom HTML widget
-- WebView component
+- WebView
+- Custom widget
 
 ---
 
-### KNX Panel Usage
+## Requirements
 
-Works if your KNX panel supports:
-
-- SVG rendering
-- JavaScript execution inside SVG
-
-Most WebView-based panels support this.  
-If scripts are blocked, use the HTML version instead.
-
----
-
-## Browser / Engine Requirements
-
-Requires:
-
-- Modern browser engine (Chromium, WebKit, etc.)
+- Modern browser engine
 - JavaScript enabled
-- `Intl.DateTimeFormat` support
-
-If `Intl` is not supported, the clock falls back to local system time without timezone conversion.
+- SVG scripts allowed
 
 ---
 
-## Offline Capability
+## Notes
 
-Fully offline.
-
-The clock:
-
-- Does NOT use any API
-- Does NOT require internet
-- Uses only system time
-
-Accuracy depends on the device system clock.
+- Time depends on the device system clock.
+- If JavaScript inside SVG is blocked, the clock will not update.
 
 ---
-
-## Limitations
-
-- If the system time is wrong, the clock will be wrong.
-- If the panel blocks JavaScript in SVG, the clock will not update.
-- Very old embedded browsers may lack full timezone support.
-
----
-
-## License
 
 Free to use and modify.
